@@ -49,12 +49,11 @@ pipeline {
                 sh 'sudo docker run --name SDKTech-DevSecOps-Demo-$BUILD_NUMBER -p 9090:9090 --cpus="0.50" --memory="256m" -e PORT=9090 -d sdktech-devsecops-demo:$BUILD_NUMBER'
             }
         }
+    }
         
     post {
             always {
                 cleanWs()
             }
         }
-    }
-  }
-        
+}  
