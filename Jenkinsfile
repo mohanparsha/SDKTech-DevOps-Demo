@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools { 
-        maven 'maven-3.8.6' 
+        maven 'maven-3.6.3' 
     }
     stages {
         stage('Checkout git') {
@@ -27,7 +27,7 @@ pipeline {
         
         stage('Sonarqube Analysis'){
             steps{
-                   withSonarQubeEnv(installationName: 'sonarqube') {
+                   withSonarQubeEnv(installationName: 'MySQ') {
                         sh 'mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
                     }
             }
