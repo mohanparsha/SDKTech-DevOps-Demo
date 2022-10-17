@@ -15,6 +15,6 @@ public class DemoApplication {
 
 	@RequestMapping("/")
   public String home() {
-    return "Hello Spyro Participants to the DevOps World!";
+    return "Hello Docker World!";
   }
 }
