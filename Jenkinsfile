@@ -40,7 +40,7 @@ pipeline {
         }
         stage('Image Scanning Trivy'){
             steps{
-               sh 'sudo trivy image devsecops-demo:$BUILD_NUMBER > $WORKSPACE/trivy-image-scan/trivy-image-scan-$BUILD_NUMBER.txt'
+               sh 'sudo trivy image sdktech-devsecops-demo:$BUILD_NUMBER > $WORKSPACE/trivy-image-scan/trivy-image-scan-$BUILD_NUMBER.txt'
                
             }
         }
