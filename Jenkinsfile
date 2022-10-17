@@ -12,7 +12,8 @@ pipeline {
         
         stage ('Build & Test') {
             steps {
-                sh 'mvn install' 
+                sh 'mvn install'
+                cleanWs notFailBuild: true
             }
             post {
                success {
@@ -38,6 +39,7 @@ pipeline {
         
         stage('Vulnerability Scanning'){
             steps{
+               sh 'mkdir trivy-image-scan-reports'
                sh 'sudo trivy image sdktech-devsecops-demo:$BUILD_NUMBER > $WORKSPACE/trivy-image-scan-reports/trivy-image-scan-$BUILD_NUMBER.txt'
                
             }
