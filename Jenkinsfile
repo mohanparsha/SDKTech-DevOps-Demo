@@ -24,7 +24,6 @@ pipeline {
 
         }
         
-        
         stage('Sonarqube Analysis'){
             steps{
                    withSonarQubeEnv(installationName: 'MySQ') {
@@ -32,36 +31,24 @@ pipeline {
                     }
             }
         }
+        
         stage('Building Docker Image'){
             steps{
                 sh 'sudo docker build -t sdktech-devsecops-demo:$BUILD_NUMBER .'
                 sh 'sudo docker images'
             }
         }
+        
         stage('Image Scanning Trivy'){
             steps{
                sh 'sudo trivy image sdktech-devsecops-demo:$BUILD_NUMBER > $WORKSPACE/trivy-image-scan/trivy-image-scan-$BUILD_NUMBER.txt'
                
             }
         }
-             
         
-        stage ('Uploading Reports to Cloud Storage'){
-            steps{
-                   withCredentials([vaultFile(credentialsId: 'cloud-storage-access', variable: 'CLOUD_CREDS')]) {
-                   sh '''
-                   gcloud version
-                   gcloud auth activate-service-account --key-file="$CLOUD_CREDS"
-                   gsutil cp -r $WORKSPACE/trivy-image-scan/trivy-image-scan-$BUILD_NUMBER.txt gs://devsecops-reports
-                   gsutil ls gs://devsecops-reports
-                   '''
-                }
-
-            }
-        }
         stage('Cleaning up DockerImage'){
             steps{
-                sh 'sudo docker rmi nanditasahu/devsecops-demo:$BUILD_NUMBER'
+                sh 'sudo docker rmi sdktech-devsecops-demo:$BUILD_NUMBER'
             }
         }
     }
