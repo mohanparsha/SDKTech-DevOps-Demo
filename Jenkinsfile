@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Code Checkout') {
             steps {
-               git branch: 'main', url: 'https://github.com/mohanparsha/SDKTech-DevOps-Demo.git'
+               git 'https://github.com/mohanparsha/SDKTech-DevOps-Demo.git'
             }
         }
         
