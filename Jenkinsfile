@@ -35,7 +35,7 @@ pipeline {
         stage('Building Docker Image'){
             steps{
                 sh '''
-                sudo docker build -t SDKTech-devsecops-demo:$BUILD_NUMBER .
+                sudo docker build -t sdktech-devsecops-demo:$BUILD_NUMBER .
                 sudo docker images
                 '''
             }
