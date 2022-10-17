@@ -13,7 +13,6 @@ pipeline {
         stage ('Build & Test') {
             steps {
                 sh 'mvn install'
-                cleanWs notFailBuild: true
             }
             post {
                success {
