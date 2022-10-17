@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Code Checkout') {
             steps {
-               git branch: 'sonar', url: 'https://github.com/mohanparsha/SDKTech-DevOps-Demo.git'
+               git branch: 'sonar', url: 'https://github.com/darinpope/java-web-app.git'
             }
         }
         
