@@ -46,9 +46,9 @@ pipeline {
             }
         }
         
-        stage('Cleaning up DockerImage'){
+        stage('Deploy DockerImage'){
             steps{
-                sh 'sudo docker rmi sdktech-devsecops-demo:$BUILD_NUMBER'
+                sh 'sudo docker run --name SDKTech-DevSecOps-Demo-$BUILD_NUMBER --cpus="0.50" --memory="512m" -d sdktech-devsecops-demo:$BUILD_NUMBER'
             }
         }
     }
