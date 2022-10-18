@@ -51,7 +51,7 @@ pipeline {
         
         stage('Slack it'){
             steps {
-                slackSend channel: '#jenkins-notifications', 
+                slackSend channel: '#jenkins-status', 
                           message: 'Hello, world'
             }
         }
