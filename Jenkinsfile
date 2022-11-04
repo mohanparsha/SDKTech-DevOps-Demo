@@ -1,6 +1,6 @@
 def server = Artifactory.server 'MyJFrogServer'
 def rtMaven = Artifactory.newMavenBuild()
-def buildinfo
+def buildInfo
 
 pipeline {
     agent any
@@ -23,16 +23,18 @@ pipeline {
                 script {
 		        rtMaven.tool = 'M3'
 		        rtMaven.resolver releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
-		        buildinfo = Artifactory.newBuildInfo()
+		        buildInfo = Artifactory.newBuildInfo()
 		        rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot', server: server
-                	buildinfo.env.capture = true
+                	buildInfo.env.capture = true
                 }
             }
         }
         
         stage ('Build & Test') {
             steps {
-		   sh 'mvn install artifact:buildinfo'
+		script {
+			rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
+        	}		
             }
             post {
                success {
@@ -77,13 +79,12 @@ pipeline {
         }
     }
     post {
-        always {
-            echo 'I will always say Hello again!'
-            
-            emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
-                recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']],
-                subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
-            
-        }
-    }
+    	always {
+		mail bcc: '', body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br>URL: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "Success: Project name -> ${env.JOB_NAME}", to: "mohan.parsha@gmail.com";
+    	}
+    	failure {
+      		sh 'echo "This will run only if failed"'
+      		mail bcc: '', body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br>URL: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "ERROR: Project name -> ${env.JOB_NAME}", to: "mohan.parsha@gmail.com";
+    	}
+  }
 }
