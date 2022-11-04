@@ -56,6 +56,7 @@ pipeline {
         
         stage('Building Docker Image'){
             steps{
+		chmod +x /var/lib/jenkins/workspace/SDKTech-DevSecOps-Demo/mvnw
                 sh 'sudo docker build -t sdktech-devsecops-demo:$BUILD_NUMBER .'
                 sh 'sudo docker images'
             }
