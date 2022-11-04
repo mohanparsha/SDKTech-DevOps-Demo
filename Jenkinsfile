@@ -46,7 +46,7 @@ pipeline {
             }
         }
         
-        stage('Security Analysis'){
+        stage('SAST Scan'){
             steps{
                    withSonarQubeEnv(installationName: 'MySQ') {
                         sh 'mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
@@ -72,6 +72,12 @@ pipeline {
         stage('Deploy App'){
             steps{
                 sh 'sudo docker run --name SDKTech-DevSecOps-Demo-$BUILD_NUMBER -p 9090:9090 --cpus="0.50" --memory="256m" -e PORT=9090 -d sdktech-devsecops-demo:$BUILD_NUMBER'
+            }
+        }
+	    
+	stage('DAST Scan'){
+            steps{
+                sh 'sudo docker run -t owasp/zap2docker-stable zap-baseline.py -t http://20.244.120.57:9090/'
             }
         }
     }
