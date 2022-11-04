@@ -1,6 +1,6 @@
 def server = Artifactory.server 'MyJFrogServer'
 def rtMaven = Artifactory.newMavenBuild()
-def buildInfo
+def buildinfo
 
 pipeline {
     agent any
@@ -23,16 +23,16 @@ pipeline {
                 script {
 		        rtMaven.tool = 'M3'
 		        rtMaven.resolver releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
-		        buildInfo = Artifactory.newBuildInfo()
+		        buildinfo = Artifactory.newBuildInfo()
 		        rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot', server: server
-                	buildInfo.env.capture = true
+                	buildinfo.env.capture = true
                 }
             }
         }
         
         stage ('Build & Test') {
             steps {
-		   sh 'mvn clean install artifact:buildInfo'
+		   sh 'mvn install artifact:buildinfo'
             }
             post {
                success {
