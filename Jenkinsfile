@@ -33,7 +33,7 @@ pipeline {
         stage ('Build & Test') {
             steps {
 		script {
-			rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
+			rtMaven.run goals: 'clean install', buildInfo: buildInfo
         	}		
             }
             post {
