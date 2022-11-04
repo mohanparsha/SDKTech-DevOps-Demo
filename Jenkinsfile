@@ -1,4 +1,4 @@
-def server = Artifactory.server 'artifactory'
+def server = Artifactory.server 'MyJFrogServer'
 def rtMaven = Artifactory.newMavenBuild()
 def buildInfo
 
