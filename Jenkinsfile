@@ -18,16 +18,6 @@ pipeline {
             }
         }
         
-        stage('Artifactory Config') {
-            steps {
-                script {
-		        rtMaven.tool = 'M3'
-		        buildInfo = Artifactory.newBuildInfo()
-		        buildInfo.env.capture = true
-                }
-            }
-        }
-        
         stage ('Build & Test') {
             steps {
 		script {
@@ -38,6 +28,18 @@ pipeline {
                success {
                     junit 'target/surefire-reports/**/*.xml'
                 }   
+            }
+        }
+	    
+	stage('Artifactory Publish') {
+            steps {
+                script {
+		        rtMaven.tool = 'M3'
+		        buildInfo = Artifactory.newBuildInfo()
+		        buildInfo.env.capture = true
+			rtMaven.deployer.deployArtifacts buildInfo
+			server.publishBuildInfo buildInfo
+                }
             }
         }
         
