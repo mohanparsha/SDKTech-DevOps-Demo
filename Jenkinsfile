@@ -26,8 +26,7 @@ pipeline {
                 script {
 		        rtMaven.tool = 'M3'
 			rtMaven.deployer snapshotRepo: ARTIFACTORY_LOCAL_SNAPSHOT_REPO, server: server
-        		rtMaven.resolver snapshotRepo: ARTIFACTORY_VIRTUAL_SNAPSHOT_REPO, server: server
-		        buildInfo = Artifactory.newBuildInfo()
+        		buildInfo = Artifactory.newBuildInfo()
                 }
             }
         }
