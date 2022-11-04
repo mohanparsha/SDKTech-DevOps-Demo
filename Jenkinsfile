@@ -38,7 +38,7 @@ pipeline {
         stage ('Build & Test') {
             steps {
 		script {
-			rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
+			rtMaven.run pom: '/var/lib/jenkins/workspace/SDKTech-DevSecOps-Demo/pom.xml', goals: 'clean install', buildInfo: buildInfo
 			rtMaven.deployer.deployArtifacts buildInfo
 		    	server.publishBuildInfo buildInfo
         	}		
