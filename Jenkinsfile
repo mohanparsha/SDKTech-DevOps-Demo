@@ -6,6 +6,7 @@ pipeline {
     agent any
     tools { 
         maven 'M3'
+    }
     options { 
     timestamps () 
     buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '10', numToKeepStr: '5')	
