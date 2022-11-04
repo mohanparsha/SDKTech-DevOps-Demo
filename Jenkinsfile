@@ -39,13 +39,13 @@ pipeline {
             steps {
 		script {
 			rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
+			rtMaven.deployer.deployArtifacts buildInfo
+		    	server.publishBuildInfo buildInfo
         	}		
             }
             post {
                success {
                     junit 'target/surefire-reports/**/*.xml'
-		    rtMaven.deployer.deployArtifacts buildInfo
-		    server.publishBuildInfo buildInfo
                 }   
             }
         }
