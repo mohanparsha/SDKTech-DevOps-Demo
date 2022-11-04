@@ -45,7 +45,7 @@ pipeline {
                success {
                     junit 'target/surefire-reports/**/*.xml'
 		    rtMaven.deployer.deployArtifacts buildInfo
-		server.publishBuildInfo buildInfo
+		    server.publishBuildInfo buildInfo
                 }   
             }
         }
