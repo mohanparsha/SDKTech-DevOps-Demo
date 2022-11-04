@@ -18,21 +18,21 @@ pipeline {
             }
         }
         
-        stage('Artifactory_Configuration') {
+        stage('Artifactory Config') {
             steps {
                 script {
 		        rtMaven.tool = 'M3'
 		        rtMaven.resolver releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
 		        buildInfo = Artifactory.newBuildInfo()
 		        rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot', server: server
-                buildInfo.env.capture = true
+                	buildInfo.env.capture = true
                 }
             }
         }
         
         stage ('Build & Test') {
             steps {
-                sh 'mvn install'
+                rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
             }
             post {
                success {
