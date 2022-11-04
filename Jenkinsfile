@@ -1,12 +1,31 @@
+def server = Artifactory.server 'artifactory'
+def rtMaven = Artifactory.newMavenBuild()
+def buildInfo
+
 pipeline {
     agent any
     tools { 
-        maven 'M3' 
+        maven 'M3'
+    options { 
+    timestamps () 
+    buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '10', numToKeepStr: '5')	
     }
     stages {
         stage('Code Checkout') {
             steps {
                git branch: 'sonar', url: 'https://github.com/darinpope/java-web-app.git'
+            }
+        }
+        
+        stage('Artifactory_Configuration') {
+            steps {
+                script {
+		        rtMaven.tool = 'M3'
+		        rtMaven.resolver releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
+		        buildInfo = Artifactory.newBuildInfo()
+		        rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot', server: server
+                buildInfo.env.capture = true
+                }
             }
         }
         
