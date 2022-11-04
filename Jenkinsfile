@@ -1,10 +1,10 @@
 def server = Artifactory.server 'MyJFrogServer'
 def rtMaven = Artifactory.newMavenBuild()
 def buildInfo
-def ARTIFACTORY_LOCAL_RELEASE_REPO = 'https://sdktech.jfrog.io/artifactory/sdk-demo-webapp-libs-release-local/'
-def ARTIFACTORY_LOCAL_SNAPSHOT_REPO = 'https://sdktech.jfrog.io/artifactory/sdk-demo-webapp-libs-snapshot-local/'
-def ARTIFACTORY_VIRTUAL_RELEASE_REPO = 'https://sdktech.jfrog.io/artifactory/sdk-demo-webapp-libs-release-local/'
-def ARTIFACTORY_VIRTUAL_SNAPSHOT_REPO = 'https://sdktech.jfrog.io/artifactory/sdk-demo-webapp-libs-snapshot-local/'
+def ARTIFACTORY_LOCAL_RELEASE_REPO = 'sdk-demo-webapp-libs-release-local/'
+def ARTIFACTORY_LOCAL_SNAPSHOT_REPO = 'sdk-demo-webapp-libs-snapshot-local/'
+def ARTIFACTORY_VIRTUAL_RELEASE_REPO = 'sdk-demo-webapp-libs-release-local/'
+def ARTIFACTORY_VIRTUAL_SNAPSHOT_REPO = 'sdk-demo-webapp-libs-snapshot-local/'
 
 
 pipeline {
