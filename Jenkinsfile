@@ -20,30 +20,29 @@ pipeline {
                git branch: 'sonar', url: 'https://github.com/darinpope/java-web-app.git'
             }
         }
-        
-	stage('Artifactory Publish') {
-            steps {
-                script {
-		        rtMaven.tool = 'M3'
-			rtMaven.deployer snapshotRepo: ARTIFACTORY_LOCAL_SNAPSHOT_REPO, server: server
-        		buildInfo = Artifactory.newBuildInfo()
-                }
-            }
-        }
-	    
-	    
+   	    
         stage ('Build & Test') {
             steps {
 		script {
+			rtMaven.tool = 'M3'
+			rtMaven.deployer snapshotRepo: ARTIFACTORY_LOCAL_SNAPSHOT_REPO, server: server
+        		buildInfo = Artifactory.newBuildInfo()
 			rtMaven.run pom: '/var/lib/jenkins/workspace/SDKTech-DevSecOps-Demo/pom.xml', goals: 'clean install', buildInfo: buildInfo
-			rtMaven.deployer.deployArtifacts buildInfo
-		    	server.publishBuildInfo buildInfo
         	}		
             }
             post {
                success {
                     junit 'target/surefire-reports/**/*.xml'
                 }   
+            }
+        }
+	    
+	stage('Publish Artifact') {
+            steps {
+                script {
+		        rtMaven.deployer.deployArtifacts buildInfo
+		    	server.publishBuildInfo buildInfo
+                }
             }
         }
         
