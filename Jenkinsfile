@@ -32,7 +32,7 @@ pipeline {
         
         stage ('Build & Test') {
             steps {
-                rtMaven.run pom: 'pom.xml', goals: 'clean install', buildInfo: buildInfo
+		   sh 'mvn clean install artifact:buildInfo'
             }
             post {
                success {
