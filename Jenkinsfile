@@ -77,7 +77,7 @@ pipeline {
 	    
 	stage('DAST Scan'){
             steps{
-                sh 'sudo docker run -t owasp/zap2docker-stable zap-baseline.py -t http://20.244.120.57:9090/'
+                sh 'sudo docker run -t owasp/zap2docker-stable zap-baseline.py -t http://20.244.120.57:9090/ || true'
             }
         }
     }
