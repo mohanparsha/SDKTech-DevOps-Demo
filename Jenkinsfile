@@ -69,7 +69,7 @@ pipeline {
             }
         }
         
-        stage('Deploy to QA'){
+        stage('QA Release'){
             steps{
                 sh 'sudo docker run --name SDKTech-DevSecOps-Demo-$BUILD_NUMBER -p 9090:9090 --cpus="0.50" --memory="256m" -e PORT=9090 -d sdktech-devsecops-demo:$BUILD_NUMBER'
             }
@@ -78,6 +78,21 @@ pipeline {
 	stage('DAST Scan'){
             steps{
                 sh 'sudo docker run -t owasp/zap2docker-stable zap-baseline.py -t http://20.244.120.57:9090/ || true'
+            }
+        }
+	    
+	stage ("UAT Approval") {
+            steps {
+                script {
+                    currentStage="${STAGE_NAME}"
+                    approversList = 'mohan.parsha'
+                    stgEnvironment = 'uat'
+                    (timeStamps,channelIds) = slackHelper.notifySlackInteractiveApprovalWaiting(appName, version, stgEnvironment, slackChannels, approversList)
+                    approver = pipelineHelper.getUserReleaseApproval(version, stgEnvironment, approversList, [parameter])
+                    jenkinsApprover=pipelineHelper.approverValidation(approver)
+                    slackHelper.updateSlackInteractiveApprovalWaiting(appName, version, stgEnvironment, slackChannels, jenkinsApprover, timeStamps, channelIds)
+                    milestone(++milestoneCount)
+                }
             }
         }
     }
