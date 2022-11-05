@@ -87,10 +87,8 @@ pipeline {
                     currentStage="${STAGE_NAME}"
                     approversList = 'mohan.parsha'
                     stgEnvironment = 'uat'
-                    (timeStamps,channelIds) = slackHelper.notifySlackInteractiveApprovalWaiting(appName, version, stgEnvironment, slackChannels, approversList)
                     approver = pipelineHelper.getUserReleaseApproval(version, stgEnvironment, approversList, [parameter])
                     jenkinsApprover=pipelineHelper.approverValidation(approver)
-                    slackHelper.updateSlackInteractiveApprovalWaiting(appName, version, stgEnvironment, slackChannels, jenkinsApprover, timeStamps, channelIds)
                     milestone(++milestoneCount)
                 }
             }
