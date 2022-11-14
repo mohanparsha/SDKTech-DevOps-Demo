@@ -27,7 +27,7 @@ pipeline {
 			rtMaven.tool = 'M3'
 			rtMaven.deployer snapshotRepo: ARTIFACTORY_LOCAL_SNAPSHOT_REPO, server: server
         		buildInfo = Artifactory.newBuildInfo()
-			rtMaven.run pom: '/var/lib/jenkins/workspace/SDKTech-DevOps-Demo/pom.xml', goals: 'clean install', buildInfo: buildInfo
+			rtMaven.run pom: '/var/lib/jenkins/workspace/SDKTech-DevOps-GNITS-Demo/pom.xml', goals: 'clean install', buildInfo: buildInfo
         	}		
             }
 
@@ -44,15 +44,15 @@ pipeline {
            
         stage('Building Docker Image'){
             steps{
-		sh 'sudo chmod +x /var/lib/jenkins/workspace/SDKTech-DevOps-Demo/mvnw'
-                sh 'sudo docker build -t sdktech-devops-demo:$BUILD_NUMBER .'
+		sh 'sudo chmod +x /var/lib/jenkins/workspace/SDKTech-DevOps-GNITS-Demo/mvnw'
+                sh 'sudo docker build -t sdktech-devops-gnits-demo:$BUILD_NUMBER .'
                 sh 'sudo docker images'
             }
         }
 	
         stage('QA Release'){
             steps{
-                sh 'sudo docker run --name SDKTech-DevOps-Demo-$BUILD_NUMBER -p 9090:9090 --cpus="0.50" --memory="256m" -e PORT=9090 -d sdktech-devops-demo:$BUILD_NUMBER'
+                sh 'sudo docker run --name SDKTech-DevOps-GNITS-Demo-$BUILD_NUMBER -p 8090:9090 --cpus="0.50" --memory="256m" -e PORT=8090 -d sdktech-devops-gnits-demo:$BUILD_NUMBER'
             }
         }
 	
