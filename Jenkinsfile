@@ -45,15 +45,7 @@ pipeline {
                 }
             }
         }
-        
-        stage('SAST Scan'){
-            steps{
-                   withSonarQubeEnv(installationName: 'MySQ') {
-                        sh 'mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
-                    }
-            }
-        }
-        
+           
         stage('Building Docker Image'){
             steps{
 		sh 'sudo chmod +x /var/lib/jenkins/workspace/SDKTech-DevSecOps-Demo/mvnw'
@@ -61,26 +53,13 @@ pipeline {
                 sh 'sudo docker images'
             }
         }
-        
-        stage('Vulnerability Scanning'){
-            steps{
-               sh 'sudo trivy image sdktech-devsecops-demo:$BUILD_NUMBER > $WORKSPACE/trivy-image-scan-$BUILD_NUMBER.txt'
-               
-            }
-        }
-        
+	
         stage('QA Release'){
             steps{
                 sh 'sudo docker run --name SDKTech-DevSecOps-Demo-$BUILD_NUMBER -p 9090:9090 --cpus="0.50" --memory="256m" -e PORT=9090 -d sdktech-devsecops-demo:$BUILD_NUMBER'
             }
         }
-	    
-	stage('DAST Scan'){
-            steps{
-                sh 'sudo docker run -t owasp/zap2docker-stable zap-baseline.py -t http://20.244.120.57:9090/ || true'
-            }
-        }
-	    
+	
 	stage ("UAT Approval") {
             steps {
                 script {
