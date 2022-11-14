@@ -15,6 +15,6 @@ public class DemoApplication {
 
 	@RequestMapping("/")
   public String home() {
-    return "Hello Spyro Participants to the DevOps World!";
+    return "Welcome to GNITS DevOps Workshop, This page is served from a Docker Container successfully built out of a DevOps Pipeline!";
   }
 }
