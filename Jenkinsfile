@@ -30,11 +30,6 @@ pipeline {
 			rtMaven.run pom: '/var/lib/jenkins/workspace/SDKTech-DevSecOps-Demo/pom.xml', goals: 'clean install', buildInfo: buildInfo
         	}		
             }
-            post {
-               success {
-                    
-                }   
-            }
         }
 	    
 	stage('Publish Artifact') {
