@@ -17,7 +17,7 @@ pipeline {
     stages {
         stage('Code Checkout') {
             steps {
-               git branch: 'sonar', url: 'https://github.com/mohanparsha/SDKTech-DevOps-Demo.git'
+               git branch: 'devops-demo', url: 'https://github.com/mohanparsha/SDKTech-DevOps-Demo.git'
             }
         }
    	    
@@ -49,14 +49,14 @@ pipeline {
         stage('Building Docker Image'){
             steps{
 		sh 'sudo chmod +x /var/lib/jenkins/workspace/SDKTech-DevSecOps-Demo/mvnw'
-                sh 'sudo docker build -t sdktech-devsecops-demo:$BUILD_NUMBER .'
+                sh 'sudo docker build -t sdktech-devops-demo:$BUILD_NUMBER .'
                 sh 'sudo docker images'
             }
         }
 	
         stage('QA Release'){
             steps{
-                sh 'sudo docker run --name SDKTech-DevSecOps-Demo-$BUILD_NUMBER -p 9090:9090 --cpus="0.50" --memory="256m" -e PORT=9090 -d sdktech-devsecops-demo:$BUILD_NUMBER'
+                sh 'sudo docker run --name SDKTech-DevOps-Demo-$BUILD_NUMBER -p 9090:9090 --cpus="0.50" --memory="256m" -e PORT=9090 -d sdktech-devops-demo:$BUILD_NUMBER'
             }
         }
 	
