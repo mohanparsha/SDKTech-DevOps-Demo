@@ -15,6 +15,6 @@ public class DemoApplication {
 
 	@RequestMapping("/")
   public String home() {
-    return "Welcome to Containers World, This page is served from a Docker Container!";
+    return "Welcome All Participants to GNITS DevSecOps Workshop, This page is served from a Docker Container built out of DevSecOps Pipeline!";
   }
 }
