@@ -30,6 +30,11 @@ pipeline {
 			rtMaven.run pom: '/var/lib/jenkins/workspace/SDKTech-DevOps-GNITS-Demo/pom.xml', goals: 'clean install', buildInfo: buildInfo
         	}		
             }
+	    post {
+               success {
+                    junit 'target/surefire-reports/**/*.xml'
+                }   
+            }
 
         }
 	    
