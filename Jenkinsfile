@@ -27,7 +27,7 @@ pipeline {
 			rtMaven.tool = 'M3'
 			rtMaven.deployer snapshotRepo: ARTIFACTORY_LOCAL_SNAPSHOT_REPO, server: server
         		buildInfo = Artifactory.newBuildInfo()
-			rtMaven.run pom: '/var/lib/jenkins/workspace/SDKTech-DevSecOps-Demo/pom.xml', goals: 'clean install', buildInfo: buildInfo
+			rtMaven.run pom: '/var/lib/jenkins/workspace/SDKTech-DevOps-Demo/pom.xml', goals: 'clean install', buildInfo: buildInfo
         	}		
             }
         }
