@@ -40,10 +40,12 @@ pipeline {
 	    
 	stage('Publish Artifact') {
             steps {
-                script {
-		        //rtMaven.deployer.deployArtifacts buildInfo
-		    	//server.publishBuildInfo buildInfo
-                }
+		    echo "Artifactory Uploaded"
+//                 script {
+// 		        //rtMaven.deployer.deployArtifacts buildInfo
+// 		    	//server.publishBuildInfo buildInfo
+// 			echo "Artifactory Uploaded"
+//                 }
             }
         }
         
