@@ -40,10 +40,10 @@ pipeline {
 	    
 	stage('Publish Artifact') {
             steps {
-//                 script {
-// 		        rtMaven.deployer.deployArtifacts buildInfo
-// 		    	server.publishBuildInfo buildInfo
-//                 }
+                script {
+		        //rtMaven.deployer.deployArtifacts buildInfo
+		    	//server.publishBuildInfo buildInfo
+                }
             }
         }
         
