@@ -39,12 +39,12 @@ pipeline {
         }
 	    
 	stage('Publish Artifact') {
-//             steps {
+            steps {
 //                 script {
 // 		        rtMaven.deployer.deployArtifacts buildInfo
 // 		    	server.publishBuildInfo buildInfo
 //                 }
-//             }
+            }
         }
         
         stage('SAST Scan'){
