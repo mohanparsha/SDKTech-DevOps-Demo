@@ -67,9 +67,7 @@ pipeline {
         
 	stage ('OWASP Dependency-Check Vulnerabilities') {
 	    steps {
-		withMaven(maven : 'M3') {
-		    sh 'mvn dependency-check:check'
-		}  
+		sh 'mvn dependency-check:check'  
    		dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
 	    }
 	} 
