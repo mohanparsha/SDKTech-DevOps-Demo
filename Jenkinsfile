@@ -16,6 +16,7 @@ pipeline {
     timestamps () 
     buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '10', numToKeepStr: '5')	
     }
+	
     stages {
         stage('Code Checkout') {
             steps {
@@ -25,14 +26,14 @@ pipeline {
 	stage('install Spectral') {
 		// preflight is a tool that makes sure your CI processes run securely and are safe to use. 
 		// To learn more and install preflight, see here: https://github.com/SpectralOps/preflight
-		steps {
-			sh "curl -L 'https://get.spectralops.io/latest/x/sh?dsn=$SPECTRAL_DSN' | preflight run"
-		}
+	    steps {
+		sh "curl -L 'https://get.spectralops.io/latest/x/sh?dsn=$SPECTRAL_DSN' | preflight run"
+	    }
 	}
     	stage('scan for issues') {
-		steps {
-			sh "$HOME/.spectral/spectral scan --ok"
-		}
+	    steps {
+		sh "$HOME/.spectral/spectral scan --ok"
+	    }
 	}    
 	    
         stage ('Build & Test') {
