@@ -3,7 +3,9 @@ def rtMaven = Artifactory.newMavenBuild()
 def buildInfo
 def ARTIFACTORY_LOCAL_SNAPSHOT_REPO = 'sdk-demo-webapp-libs-snapshot-local/'
 def ARTIFACTORY_VIRTUAL_SNAPSHOT_REPO = 'sdk-demo-webapp-libs-snapshot-local/'
-
+environment {
+    SPECTRAL_DSN = credentials('spectral-dsn')
+  }
 
 pipeline {
     agent any
@@ -20,7 +22,19 @@ pipeline {
                git branch: 'sonar', url: 'https://github.com/mohanparsha/SDKTech-DevOps-Demo.git'
             }
         }
-   	    
+	stage('install Spectral') {
+		// preflight is a tool that makes sure your CI processes run securely and are safe to use. 
+		// To learn more and install preflight, see here: https://github.com/SpectralOps/preflight
+		steps {
+			sh "curl -L 'https://get.spectralops.io/latest/x/sh?dsn=$SPECTRAL_DSN' | preflight run"
+		}
+	}
+    	stage('scan for issues') {
+		steps {
+			sh "$HOME/.spectral/spectral scan --ok"
+		}
+	}    
+	    
         stage ('Build & Test') {
             steps {
 		script {
