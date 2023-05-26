@@ -7,12 +7,15 @@ def ARTIFACTORY_VIRTUAL_SNAPSHOT_REPO = 'sdk-demo-webapp-libs-snapshot-local/'
 
 pipeline {
     agent any
+    environment {
+        SPECTRAL_DSN = credentials('spectral-dsn')
+    }
     tools { 
         maven 'M3'
     }
     options { 
-    timestamps () 
-    buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '10', numToKeepStr: '5')	
+    timestamps ()
+    buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '10', numToKeepStr: '5')
     }
 	
     stages {
@@ -22,9 +25,6 @@ pipeline {
             }
         }
 	stage('install Spectral') {
-		environment {
-		    SPECTRAL_DSN = credentials('spectral-dsn')
-		}
 		// preflight is a tool that makes sure your CI processes run securely and are safe to use. 
 		// To learn more and install preflight, see here: https://github.com/SpectralOps/preflight
 	    steps {
@@ -33,7 +33,7 @@ pipeline {
 	}
     	stage('scan for issues') {
 	    steps {
-		sh "$HOME/.spectral/spectral scan --ok"
+		sh "$HOME/.spectral/spectral scan --ok --engines secrets,iac,oss --include-tags base,audit,iac"
 	    }
 	}    
 	    
