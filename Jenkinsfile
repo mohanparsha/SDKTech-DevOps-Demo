@@ -68,7 +68,7 @@ pipeline {
 	stage ('OWASP Dependency-Check Vulnerabilities') {
 	    steps {
 		dependencyCheck additionalArguments: '', odcInstallation: 'dependency-check'  
-   		dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+   		dependencyCheckPublisher pattern: 'dependency-check-report.xml'
 	    }
 	} 
 	    
