@@ -3,7 +3,7 @@ def rtMaven = Artifactory.newMavenBuild()
 def buildInfo
 def ARTIFACTORY_LOCAL_SNAPSHOT_REPO = 'sdk-demo-webapp-libs-snapshot-local/'
 def ARTIFACTORY_VIRTUAL_SNAPSHOT_REPO = 'sdk-demo-webapp-libs-snapshot-local/'
-#def SPECTRAL_DSN = credentials('spectral-dsn')
+//def SPECTRAL_DSN = credentials('spectral-dsn')
 
 pipeline {
     agent any
