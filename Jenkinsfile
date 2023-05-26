@@ -65,6 +65,15 @@ pipeline {
             }
         }
         
+	stage ('OWASP Dependency-Check Vulnerabilities') {
+	    steps {
+		withMaven(maven : 'M3') {
+		    sh 'mvn dependency-check:check'
+		}  
+   		dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
+	    }
+	} 
+	    
         stage('SAST Scan'){
             steps{
                    withSonarQubeEnv(installationName: 'MySQ') {
@@ -138,7 +147,7 @@ pipeline {
     	}
     	failure {
       		sh 'echo "This will run only if failed"'
-      		mail bcc: '', body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br>URL: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "ERROR: Project name -> ${env.JOB_NAME}", to: "mohan.parsha@gmail.com";
+      		//mail bcc: '', body: "<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br>URL: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "ERROR: Project name -> ${env.JOB_NAME}", to: "mohan.parsha@gmail.com";
     	}
   }
 }
