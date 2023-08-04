@@ -24,14 +24,14 @@ pipeline {
                git branch: 'sonar', url: 'https://github.com/mohanparsha/SDKTech-DevOps-Demo.git'
             }
         }
-	stage('install Spectral') {
+	stage('Tools Install') {
 		// preflight is a tool that makes sure your CI processes run securely and are safe to use. 
 		// To learn more and install preflight, see here: https://github.com/SpectralOps/preflight
 	    steps {
 		sh "curl -L 'https://get.spectralops.io/latest/x/sh?dsn=$SPECTRAL_DSN' | sh"
 	    }
 	}
-    	stage('scan for issues') {
+    	stage('Secrets Scan') {
 	    steps {
 		sh "$HOME/.spectral/spectral scan --ok --engines secrets,iac,oss --include-tags base,audit,iac"
 	    }
@@ -65,7 +65,7 @@ pipeline {
             }
         }
         
-	stage ('OWASP Dependency-Check Vulnerabilities') {
+	stage ('Dependency-Check Vulnerabilities') {
 	    steps {
 		dependencyCheck additionalArguments: '', odcInstallation: 'dependency-check'  
    		dependencyCheckPublisher pattern: 'dependency-check-report.xml'
