@@ -138,6 +138,16 @@ pipeline {
                 sh 'echo Build Released to PROD'
             }
         }
+
+	stage('Env Clean UP'){
+            steps{
+                sh 'sudo docker stop sdktech-devsecops-demo:$BUILD_NUMBER'
+		sleep 05
+		sh 'sudo docker rm sdktech-devsecops-demo:$BUILD_NUMBER'
+		    sleep 02
+		sh 'sudo docker rmi -f sdktech-devsecops-demo:$BUILD_NUMBER'
+            }
+        }
     }
     post {
     	always {
