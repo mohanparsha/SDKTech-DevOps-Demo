@@ -103,7 +103,7 @@ pipeline {
 	    
 	stage('DAST Scan'){
             steps{
-                sh 'sudo docker run -t owasp/zap2docker-stable zap-baseline.py -t http://20.244.120.57:9090/ || true'
+                sh 'sudo docker run --name OWASP-Zap -t owasp/zap2docker-stable zap-baseline.py -t http://20.244.120.57:9090/ || true'
             }
         }
 	    
@@ -144,7 +144,8 @@ pipeline {
                 sh 'sudo docker stop SDKTech-DevSecOps-Demo-$BUILD_NUMBER'
 		sleep 05
 		sh 'sudo docker rm SDKTech-DevSecOps-Demo-$BUILD_NUMBER'
-		    sleep 02
+		sh 'sudo docker rm OWASP-Zap'
+		sleep 02
 		sh 'sudo docker rmi -f sdktech-devsecops-demo:$BUILD_NUMBER'
             }
         }
